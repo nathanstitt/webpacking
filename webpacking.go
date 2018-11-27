@@ -42,7 +42,7 @@ type WebPacking struct {
 	Process *exec.Cmd
 }
 
-var execCommand = exec.Command
+var ExecCommand = exec.Command
 
 func (wp *WebPacking) Run() error {
 	if !wp.config.IsDev {
@@ -51,7 +51,7 @@ func (wp *WebPacking) Run() error {
 		return err
 	}
 
-	wp.Process = execCommand(
+	wp.Process = ExecCommand(
 		fmt.Sprintf("%s/.bin/webpack-dev-server", wp.config.NodeModulesPath),
 		"--port", wp.config.DevPort,
 		"--host", wp.config.DevHost,

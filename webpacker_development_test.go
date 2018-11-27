@@ -11,7 +11,7 @@ import (
 	"io/ioutil"
 )
 
-func fakeExecCommand(command string, args...string) *exec.Cmd {
+func FakeExecCommand(command string, args...string) *exec.Cmd {
 	cs := []string{"-test.run=TestHelperProcess", "--", command}
 	cs = append(cs, args...)
 	cmd := exec.Command(os.Args[0], cs...)
@@ -23,19 +23,17 @@ func TestHelperProcess(t *testing.T){
 	if os.Getenv("GO_WANT_HELPER_PROCESS") != "1" {
 		return
 	}
-	// some code here to check arguments perhaps?
-
 	fmt.Printf(strings.Join(os.Args[3:], " "))
 	os.Exit(0)
 }
 
-func TestDevelopementMode(t *testing.T) {
+func TestDevelopmentMode(t *testing.T) {
 	jsHashedAsset := "foo-12345.js"
 	cssHashedAsset := "foo-12345.css"
 	fake := FakeReadFiler{
 		Str: fmt.Sprintf(`{ "foo.js": "%s", "foo.css": "%s" }`, jsHashedAsset, cssHashedAsset),
 	}
-	execCommand = fakeExecCommand
+	ExecCommand = FakeExecCommand
 	defer func() {
 		manifestReadFile = ioutil.ReadFile
 	}()
